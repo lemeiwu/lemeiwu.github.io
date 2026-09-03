@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="https://lemeiwu.github.io/">
 <meta property="og:url" content="https://lemeiwu.github.io/">
 <meta property="og:image" content="https://lemeiwu.github.io/img/toms-poster.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="robots" content="index, follow">
+<meta name="twitter:card" content="summary_large_image"><meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23EE5FA3'/%3E%3C/svg%3E">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Lemei","url":"https://lemeiwu.github.io/","jobTitle":"Designer","email":"mailto:ee10802@gmail.com"}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Lemei","url":"https://lemeiwu.github.io/","jobTitle":"Designer","email":"mailto:ee10802@gmail.com"}</script>
 <title>Lemei — Design Portfolio</title>
 <meta name="description" content="Lemei — selected design work: TOMS brand campaign and Born With a Broken Heart typography and CD packaging.">
 <meta property="og:title" content="Lemei — Design Portfolio">
@@ -21,7 +16,7 @@
 <style>
 :root{
   --bg:#F4EFDD; --bg-2:#ECE6CF; --ink:#141414; --ink-2:#4A4740; --mute:#8A857A; --line:#D9D2B8;
-  --sky:#7EC8F2; --pink:#EE5FA3; --pink-soft:#F6B9D3;
+  --sky:#7EC8F2; --pink:#EE5FA3; --pink-soft:#F6B9D3; --space:#171422; --space-pink:#FF4FA0;
   --accent:var(--sky);
   --display:'Syne',Futura,'Avenir Next',sans-serif;
   --body:'Karla','Helvetica Neue',Arial,sans-serif;
@@ -172,10 +167,68 @@ figure img{will-change:transform}
 footer .cta a{background:linear-gradient(90deg,var(--pink),var(--sky)) no-repeat left bottom/0% 3px;border-bottom:3px solid var(--line);transition:background-size .5s cubic-bezier(.2,.8,.2,1)}
 footer .cta a:hover{background-size:100% 3px;border-color:transparent}
 @media (prefers-reduced-motion:reduce){.ghost{transform:none!important}figure img{transform:none!important}}
+
+/* ==== interactive games (integrated) ==== */
+.interactive{margin-top:22px;border:1px solid var(--line);background:var(--bg-2)}
+.demo{border:1px solid var(--line);margin-top:40px;background:var(--bg-2)}
+.demo-head{padding:18px 22px;border-bottom:1px solid var(--line)}
+.demo-head h2{font-family:var(--display);font-weight:700;font-size:20px;margin:0}
+.demo-head .how{font-family:var(--mono);font-size:11.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.07em;margin-top:6px;display:block}
+
+/* ============ SHATTER ============ */
+#shatterStage{position:relative;height:min(72vh,600px);background:var(--space);overflow:hidden;touch-action:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%}
+.heart{position:absolute;pointer-events:none;opacity:0;transition:opacity 1.4s ease .2s}
+.heart.show{opacity:1}
+.hpath{fill:rgba(255,79,160,.06);stroke:var(--space-pink);stroke-width:.5}
+.heart.show .hpath{animation:hflick 1.7s ease-in-out infinite}
+.heart.panic .hpath{animation:hflick .5s ease-in-out infinite}
+.heart.panic{animation:htrem .1s infinite}
+.heart.mended .hpath{animation:none;stroke-opacity:.95;fill:rgba(255,79,160,.12)}
+.heart.breaking .hpath{animation:hbreak .5s ease both}
+@keyframes hflick{0%,100%{stroke-opacity:.6}18%{stroke-opacity:.9}24%{stroke-opacity:.28}52%{stroke-opacity:.72}70%{stroke-opacity:.4}}
+@keyframes htrem{0%{transform:translate(0,0)}25%{transform:translate(1.5px,-1px)}50%{transform:translate(-1.5px,1px)}75%{transform:translate(1px,1.5px)}}
+@keyframes hbreak{0%{stroke-opacity:1}40%{stroke-opacity:1;transform:scale(1.03)}100%{stroke-opacity:0;transform:scale(1.12)}}
+.ghost{position:absolute;font-family:var(--display);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.1px rgba(255,79,160,.28);pointer-events:none;user-select:none;opacity:0;transition:opacity .9s ease .4s}
+.ghost.show{opacity:1}
+.frag{position:absolute;font-family:var(--display);font-weight:800;color:var(--space-pink);line-height:1;user-select:none;will-change:transform;touch-action:none}
+.frag.loose{cursor:grab}.frag.held{cursor:grabbing}.frag.placed{color:#FFE3F0;cursor:default}
+.hintbig{position:absolute;left:0;right:0;top:44%;transform:translateY(-50%);text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);pointer-events:none;transition:opacity .3s}
+.timebar{position:absolute;left:0;top:0;height:4px;background:var(--space-pink);width:0;pointer-events:none;transition:background .3s}
+.shatter-ui{position:absolute;left:20px;bottom:16px;right:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;pointer-events:none}
+.shatter-ui .msg{font-family:var(--mono);font-size:12px;color:#C9BEE0;letter-spacing:.04em;max-width:60%}
+.shatter-ui .right{display:flex;align-items:center;gap:14px;pointer-events:auto}
+.progress{font-family:var(--mono);font-size:11.5px;color:var(--space-pink);letter-spacing:.06em}
+.progress .t{color:#fff}
+.sbtn{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;background:transparent;color:#EAD9EE;border:1px solid #4A3D63;padding:8px 12px;cursor:pointer;transition:.2s}
+.sbtn:hover{background:var(--space-pink);border-color:var(--space-pink);color:#fff}
+
+/* ============ GAME ============ */
+#gameStage{position:relative;height:min(70vh,560px);background:linear-gradient(#F7F1E0,#EFE7CE);overflow:hidden;user-select:none;touch-action:none}
+.ground{position:absolute;left:0;right:0;bottom:0;height:64px;background:var(--bg-2);border-top:2px solid var(--line)}
+#tm{position:absolute;top:6px;width:104px;height:auto}#tm svg{width:100%;height:auto;display:block}
+#tk{position:absolute;bottom:40px;width:46px;height:auto;z-index:3}#tk svg{width:100%;height:auto;display:block}
+#tk.frozen{filter:grayscale(1) brightness(.7)}
+.drop{position:absolute;width:44px;z-index:2}.drop svg{width:100%;display:block}
+.trap{position:absolute;bottom:48px;width:40px;height:24px;z-index:2}
+.hud{position:absolute;top:12px;left:14px;right:14px;display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;pointer-events:none;z-index:5}
+.hud .box{background:rgba(20,20,20,.06);padding:6px 10px;letter-spacing:.05em;border-radius:2px}
+.hud .warn{color:#fff;background:var(--pink)}
+.center-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(244,239,221,.9);z-index:10;text-align:center;padding:20px}
+.center-card h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,42px);margin:0;letter-spacing:-.02em}
+.center-card p{margin:0;color:var(--ink-2);max-width:30em;font-size:15px;line-height:1.55}
+.center-card .rules{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:grid;gap:6px;text-align:left;background:rgba(20,20,20,.04);padding:14px 18px;border-radius:4px}
+.center-card .rules b{color:var(--ink)}
+.big-num{font-family:var(--display);font-weight:800;font-size:56px;color:var(--pink);line-height:1}
+.play{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.1em;background:var(--ink);color:var(--bg);border:0;padding:14px 26px;cursor:pointer;transition:.2s}
+.play:hover{background:var(--pink)}
+.hidden{display:none!important}
+.flash{position:absolute;inset:0;background:var(--pink);opacity:0;pointer-events:none;z-index:4}
+footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);line-height:1.6}
+
 </style>
 
-</head>
-<body>
+</head><body>
 <div class="grain" aria-hidden="true"></div>
 <div class="cur" aria-hidden="true"></div>
 <div class="wrap">
@@ -223,6 +276,236 @@ footer .cta a:hover{background-size:100% 3px;border-color:transparent}
       <figure><span class="tag">View</span><img src="img/toms-editorial.jpg" alt="TOMS editorial page: large black headline Every step tells a story beside a column of brand text, joined by a thin shoelace line"><figcaption>Editorial · brand story page</figcaption></figure>
       <figure><span class="tag">View</span><img src="img/toms-postcard.jpg" alt="TOMS postcard: a person handing a shoebox across a line to a barefoot child, cream background"><figcaption>Postcard · Wear the change you want to see</figcaption></figure>
     </div>
+  
+    <div class="interactive">
+      <div class="demo-head"><h2 style="font-size:18px">Catch the drop</h2><span class="how">Arrows or drag to move · up / space / tap to jump · clear each checkpoint</span></div>
+      <div id="gameStage">
+      <div class="ground"></div>
+      <div class="hud"><span class="box" id="hudScore">SCORE 0</span><span class="box" id="hudTarget">GOAL 10 · 10s left</span></div>
+      <div id="tm"><svg id="svg_TM" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1151.6 1168.1">
+  
+  <defs>
+    <style>
+      .tm-st0, .tm-st1, .tm-st2, .tm-st3, .tm-st4, .tm-st5 {
+        fill: none;
+      }
+
+      .tm-st0, .tm-st2, .tm-st3, .tm-st6, .tm-st5 {
+        stroke: #231815;
+      }
+
+      .tm-st0, .tm-st3, .tm-st6, .tm-st4, .tm-st5 {
+        stroke-width: 5.5px;
+      }
+
+      .tm-st0, .tm-st5 {
+        stroke-miterlimit: 10;
+      }
+
+      .tm-st2 {
+        stroke-width: 11.1px;
+      }
+
+      .tm-st2, .tm-st3, .tm-st7, .tm-st6, .tm-st4, .tm-st5, .tm-st8 {
+        stroke-linecap: round;
+      }
+
+      .tm-st2, .tm-st3, .tm-st7, .tm-st6, .tm-st4, .tm-st8 {
+        stroke-linejoin: round;
+      }
+
+      .tm-st9, .tm-st8 {
+        fill: #956134;
+      }
+
+      .tm-st10 {
+        font-size: 56.8px;
+      }
+
+      .tm-st10, .tm-st11 {
+        font-family: Futura-Medium, Futura;
+        font-weight: 500;
+      }
+
+      .tm-st10, .tm-st11, .tm-st12 {
+        fill: #a4d8f4;
+      }
+
+      .tm-st7 {
+        fill: #fff;
+      }
+
+      .tm-st7, .tm-st8 {
+        stroke: #000;
+        stroke-width: 7.4px;
+      }
+
+      .tm-st13, .tm-st6 {
+        fill: #231815;
+      }
+
+      .tm-st11 {
+        font-size: 20.3px;
+      }
+
+      .tm-st4 {
+        stroke: #050505;
+      }
+
+      .tm-st12 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 22.2px;
+      }
+    </style>
+  </defs>
+  <path class="tm-st3" d="M523.9,261.3c1.5-1.4,13.8-29.9,14.4-31.9,2.2-7,5.7-13.4,10.8-18.8,4.2-4.4,6.6-10.7,5.5-16.7l16.8,3.8c-13.3-1.4-25.8-9-33.1-20.1-5.5-8.3-7.8-20.5,1.2-26.9,3.7-2.6,8.5-3.3,12.9-2.5,9.6,1.9,16.2,8.9,22.5,15.8,9.2-5.5,16.1-14.6,19-24.9,2.9-10.3,1.7-21.7-3.3-31.2,5.4,9,20.1,14.6,30.1,11.6s1.1-16.1,2.5-23.1c1-5.4,7.4-7.8,11.8-4.5,1.8,1.4,10.3,10.1,12,11.1,5.7,3.1,13.4,4.6,18.2.2,5.5-5.1,3.3-14.1.4-21,9.3,5.5,17,13.6,21.9,23.1,0,0,13,25.9,12.1,42.7v1c6.3,2.2,12.3,5,17.9,8.4,3.1,1.9,6.4,4.3,6,8.4s-.7,2.5-1.4,3.6c-4.7,6.6-14.6,5.1-20,10.5,0,0-.6,9.4-2.3,14-1.8,4.6-5.7,8.8-10.6,9.4-3.3.4-6.6-.9-9.7-2.1l-8.9-3.6c-8.8-3.5-17.9,4.5-15.5,13.6.5,1.8,1.1,3.3,1.9,4.5,3,4.2,10.5,8.7,15.1,11.1s2.4,3.7.8,5.2c-12.3,12.2-30.1,18.6-47.4,16.9-7.5-.8-14.9-3-22.4-1.9-7.4,1-9.2,24.8-8.8,32.3"/>
+  <path class="tm-st3" d="M676.4,122.7c-3.7-4.3-10.1-6-15.4-4.1s-9.2,7.2-9.4,12.8"/>
+  <path class="tm-st2" d="M668.6,156.1c0-7.2,1.9-12.1,5.9-14.6"/>
+  <path class="tm-st3" d="M559.8,175.3c-.3-5.6-6.6-10.1-12-8.5"/>
+  <path class="tm-st6" d="M684.3,64.3c6.8-7.1,7.4-18.8,2.5-27.3-4.8-8.5-14.2-13.9-23.9-15.2-9.7-1.4-19.6.9-28.6,4.9-5.3-14-19.8-23.9-34.8-23.9-15,0-29.4,10.1-34.6,24.2-9.7-5.4-19.8-10.4-30.8-12.2-10.9-1.8-23,0-31.4,7.2-8.4,7.2-12.1,20.3-6.6,29.9-11.8,1.5-23.8,3-34.5,8.2-10.7,5.2-19.9,14.9-21.4,26.7-1.5,11.8,7.1,24.9,19,25.4-6.5,10-10.2,22.4-7.2,34,3,11.5,13.8,21.4,25.7,20.6-3,10-.5,21.5,6.3,29.5,6.8,7.9,17.9,12,28.2,10.5,0,10,11.1,17.5,20.9,16,9.9-1.5,17.6-9.9,20.9-19.3.8-2.3,1.4-4.8,1.2-7.2-1-9-12.3-12.4-18.4-19.1-6.3-7-6.4-18.8-.1-25.8,6.2-7.1,17.9-8.4,25.6-3,4,2.8,7.6,11.1,12.3,12.2s9.9-5.8,12.6-10.1c2.8-4.4,3.5-9.7,3.7-14.9.5-11.6-1.3-23.3-5.2-34.2,2.4,17,38.8,33,43.1,7.9.5-3.1-4.9-10.5-4.8-13.7,0-4.2,5-7,9.2-6.4s7.6,3.5,10.8,6.4,6.5,5.8,10.6,6.6c4.9.9,10.2-1.7,12.4-6.1,2.2-4.4,1.1-10.3-2.6-13.6,12.9,1.9,19,9.8,26.6,19.1,6.4,7.8,18,5.2,22.9-4.5,4.1-8.1,1.7-18.6-4.8-24.9-6.4-6.3-16.1-8.7-25.1-7.5Z"/>
+  <path class="tm-st5" d="M1022.4,364.1c3.5-12.5,7.1-24.9,10.6-37.4"/>
+  <path class="tm-st5" d="M1071.6,387.5c7.8-10.8,15.6-21.7,23.5-32.5"/>
+  <path class="tm-st5" d="M1102.2,426c15.5-4.7,31.1-9.3,46.6-14"/>
+  <path class="tm-st3" d="M650.9,1049.4c42.3-15.1,84.7-30.2,127-45.4"/>
+  <g>
+    <path class="tm-st13" d="M449,670.9"/>
+    <path class="tm-st13" d="M462.7,671.4c21.3,26.5,38.4,56.2,50.7,87.9l-50.7-87.9Z"/>
+    <path class="tm-st13" d="M211.2,677l.7.7"/>
+    <path class="tm-st13" d="M660.2,1054.3c44-8.9,87.1-22,128.5-39.1l-3.1-10.5c-2.3-70.5-123.5-327.5-144.6-379.9-89.1,0-276.1,4.6-276.1,4.6,23.2,124.6-153.9,345-153.9,345,40.8,4.6,93.2,64.9,93.2,64.9,114.7-31.6,201.2-154.7,209.1-273.5l-2.9-14.5c36.6,43.2,56.6,97.6,75.5,151,18.9,53.3,38,107.9,73.1,152.3l1-.4Z"/>
+  </g>
+  <path class="tm-st3" d="M248.1,989.7"/>
+  <g>
+    <path class="tm-st9" d="M353.6,1155.7c-51.9,0-100.1-24.2-131.5-44.6-33.9-22-55.9-44.3-56.1-44.5-.7-.7-.9-1.7-.7-2.6,8.7-36.8,45.4-40,45.7-40,0,0,.1,0,.2,0,.9,0,1.7.4,2.3,1.2,20.4,28.5,65.9,56,75.1,61.3l11.6-9.5c.5-.4,1.1-.6,1.8-.6s1.2.2,1.6.5l36.1,26.5c24.7,4.2,40.4,11,46.7,20.4,3,4.4,3.9,9.4,2.7,14.6-2,8.8-9.5,15.4-18.8,16.4-5.5.6-11.1.8-16.7.8Z"/>
+    <path d="M211.2,1026.7c23.2,32.5,77.6,63.1,77.6,63.1l13.1-10.7,36.6,26.9c43.9,7.3,50.2,21.3,47.9,31.8-1.7,7.7-8.5,13.4-16.3,14.2-5.5.6-11,.8-16.5.8-99.1,0-185.6-88.3-185.6-88.3,8.3-35.2,43.2-37.9,43.2-37.9M211.2,1021.2c-.1,0-.3,0-.4,0-.4,0-10,.8-20.6,6.3-10,5.2-22.8,15.6-27.6,35.8-.4,1.9.1,3.8,1.4,5.2.9.9,22.4,22.8,56.6,44.9,20.1,13,40.4,23.4,60.2,30.9,25,9.4,49.5,14.1,72.8,14.1s11.4-.3,17-.9c10.4-1.1,18.9-8.5,21.2-18.5,1.3-5.9.3-11.7-3.1-16.8-6.8-10.1-22.5-17.1-47.9-21.5l-35.5-26.2c-1-.7-2.1-1.1-3.3-1.1s-2.5.4-3.5,1.2l-10.1,8.3c-11.9-7.1-53.6-32.9-72.6-59.6-1-1.5-2.7-2.3-4.5-2.3h0Z"/>
+  </g>
+  <path class="tm-st3" d="M174,1062.1"/>
+  <path class="tm-st3" d="M166.9,1068.8c-5.5,3.9-11.5,13.5,7.1,28.5,23.8,19.2,133.3,69,157.7,66.9,2.6,2.7,40.4,1.2,50.5-14.3"/>
+  <path class="tm-st3" d="M317,1150c-2-7.1,2.3-15.4,9.2-17.9"/>
+  <path class="tm-st3" d="M332.1,1116.9c.7-4.6,3.9-8.7,8.1-10.5"/>
+  <path class="tm-st3" d="M252.2,1127.4c14.7-18.8,32.3-35.3,52-48.7"/>
+  <path class="tm-st3" d="M189.1,1034c6.9,20.7,45.2,45.6,45.2,45.6-9.7,5.4-17.7,13.7-22.8,23.5"/>
+  <text class="tm-st12" transform="translate(170.0832 1055.3177) rotate(41.3326)"><tspan x="0" y="0">TOMS</tspan></text>
+  <g>
+    <path class="tm-st9" d="M689.6,1131.8c-7.7,0-12.1-.3-12.3-.3h-1c0,0-.5-1-.5-1-17.8-32.5,6.8-59,7.1-59.3l.7-.8,1,.2c8.5,1.9,18.7,2.8,30.4,2.8,29.8,0,60.9-6.2,67.4-7.6l2.6-16.9,46.2-4.5c17.5-11.1,31.6-16.8,42-16.8s13.7,3.2,17.1,9.3c4.2,7.6,3.1,17.1-2.9,23.6-25.4,28-61.7,48.2-108,60-37.7,9.6-72.5,11-90,11Z"/>
+    <path d="M873.3,1029.7c8.3,0,12.9,3.8,15.5,8.3,3.9,6.9,2.7,15.6-2.6,21.5-58.6,64.6-161.4,70.4-196.5,70.4s-12.2-.3-12.2-.3c-17.4-31.7,6.8-57.1,6.8-57.1,9.4,2.1,20.1,2.9,30.8,2.9,34,0,69.1-7.9,69.1-7.9l2.6-16.7,45.2-4.5c19.4-12.4,32.5-16.7,41.4-16.7M873.3,1026c-10.7,0-25,5.7-42.6,16.8l-44.3,4.4-2.8.3-.4,2.8-2.2,14.2c-8.5,1.7-37.7,7.3-65.8,7.3s-21.7-.9-30-2.8l-2-.5-1.4,1.5c-.3.3-6.6,7-10.7,17.9-3.8,10.1-6.3,25.9,3.3,43.5l1,1.8h2c.2.1,4.7.4,12.4.4,17.5,0,52.5-1.4,90.4-11.1,46.6-11.9,83.2-32.2,108.9-60.5,6.5-7.2,7.8-17.5,3.1-25.8-2.6-4.7-8-10.2-18.7-10.2h0Z"/>
+  </g>
+  <path class="tm-st3" d="M679.4,1133.5c-1.4,6.6.5,17.7,24.3,16.4,30.5-1.7,145.3-37.9,162-55.7,3.8.3,30.8-26.1,28-44.4"/>
+  <path class="tm-st3" d="M845.3,1093.5c-6.2-4-8.6-13-5.2-19.5"/>
+  <path class="tm-st3" d="M834.4,1058.7c-2.5-3.9-2.9-9-1-13.3"/>
+  <path class="tm-st3" d="M782,1120c-1.6-23.8.4-47.8,6.1-71"/>
+  <path class="tm-st3" d="M675.8,1089.2c20.2,11.4,68.3,3.6,68.3,3.6-3.9,11.2-4.4,23.5-1.6,34.9"/>
+  <text class="tm-st11" transform="translate(674.6192 1120.0997) rotate(-.6354)"><tspan x="0" y="0">TOMS</tspan></text>
+  <path class="tm-st1" d="M373.8,630.3c2.3-72.3,4.8-146,29.1-214.1,24.3-68.1,74.5-131.1,143.8-151.9"/>
+  <path class="tm-st8" d="M1061.5,470.2h-15.5s0,103.6-3.1,108.4c-1.4,2.1-70.6-3.1-147-9.5-13.2-2.6-36-3-55-5.1-33.3-3.6,12.4-20.2,12.4-20.2,0,0,22.3-36.8-52.8-3.1l-22.8,8.3s-24.8-7-50.5-17.3c-13.5-5.4-27.2-11.7-37.7-18.4-1.4-21.3-1.7-46.4,3.2-61.1,0,0-9.3,3.5-10.7.7-1.4-2.8.7-41.5,6-44.7l35.2-11.4s334.6,17.6,336.7,24.8c2.1,7.3,1.6,48.5,1.6,48.5Z"/>
+  <path class="tm-st5" d="M694.8,402.2"/>
+  <path class="tm-st3" d="M723.3,396.8s.7,36.3,0,44.5c-.7,8.3-30.6,10.9-30.6,10.9"/>
+  <line class="tm-st3" x1="1057.7" y1="467.5" x2="723.6" y2="445.1"/>
+  <path class="tm-st3" d="M727.2,531.8c2.6-31.4,3.6-85.3,3.6-85.3"/>
+  <path class="tm-st7" d="M573.9,469.1s32.6,65.3,48.2,80.8c0,0,10.9,78.2,6.2,84.9-4.7,6.7-226.9,26.6-265.7-12.1,0,0,17.6-325.7,161.3-361.4,16.4-4.7,63.6-9.4,82.7,12.9,0,0,38.9,16,76.2,162.1,0,0-7.3,3-18.1,7.3-22.2,8.7-59.5,22.5-79.4,25.5-5.1.8-9,.8-11.3,0Z"/>
+  <path class="tm-st5" d="M561.4,307.1c-10.9-14.9-32.6,86.7,13.1,160.4"/>
+  <g>
+    <path class="tm-st0" d="M654.1,447.7c3,14.6,8.4,37.3,20.5,53.2,3.2,4.2,8.5,8.4,14.9,12.5"/>
+    <path class="tm-st0" d="M895.9,569.1c10.2,2.1,14.7,5.5,7.1,12.2-11.5,10.2-16.6,22.4-55.9,25.6-39.4,3.1-73.5-8.3-73.5-8.3-73.3,6.6-120.8-17.4-151.2-47.3"/>
+    <path class="tm-st5" d="M831.5,599.1c12.1-.6,31.3.2,43.4,1.4"/>
+    <path class="tm-st5" d="M849.6,586.7c11.4,1.9,31,3.8,50.8-4.3"/>
+  </g>
+  <path class="tm-st4" d="M2.8,990.7c24.9,5.5,49.7,11.1,74.6,16.6"/>
+  <path class="tm-st4" d="M6.9,1067.3c21.4-2.8,42.8-5.5,64.2-8.3"/>
+  <path class="tm-st4" d="M27.6,1148.1c18-14.5,35.9-29,53.9-43.5"/>
+  <text class="tm-st10" transform="translate(797.7 513.3) rotate(3.3)"><tspan x="0" y="0">TOMS</tspan></text>
+</svg></div>
+      <div id="tk"><svg id="svg_TK" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 737.5 906.7">
+  
+  <defs>
+    <style>
+      .tk-st0, .tk-st1, .tk-st2, .tk-st3, .tk-st4, .tk-st5 {
+        stroke-linejoin: round;
+      }
+
+      .tk-st0, .tk-st1, .tk-st2, .tk-st3, .tk-st4, .tk-st5, .tk-st6 {
+        stroke-linecap: round;
+      }
+
+      .tk-st0, .tk-st1, .tk-st2, .tk-st5, .tk-st7, .tk-st8, .tk-st6 {
+        fill: none;
+      }
+
+      .tk-st0, .tk-st2, .tk-st4, .tk-st5, .tk-st7 {
+        stroke-width: 7px;
+      }
+
+      .tk-st0, .tk-st3, .tk-st7, .tk-st8, .tk-st6 {
+        stroke: #000;
+      }
+
+      .tk-st1 {
+        stroke-width: 14.1px;
+      }
+
+      .tk-st1, .tk-st2, .tk-st4 {
+        stroke: #231815;
+      }
+
+      .tk-st3 {
+        fill: #fff;
+      }
+
+      .tk-st3, .tk-st6 {
+        stroke-width: 9.4px;
+      }
+
+      .tk-st9, .tk-st4 {
+        fill: #231815;
+      }
+
+      .tk-st5 {
+        stroke: #050505;
+      }
+
+      .tk-st7, .tk-st8, .tk-st6 {
+        stroke-miterlimit: 10;
+      }
+
+      .tk-st8 {
+        stroke-width: 4.7px;
+      }
+    </style>
+  </defs>
+  <path class="tk-st2" d="M309.9,110.4c6.4-3.2,14.7-2,20,2.8,5.3,4.8,7.2,13,4.6,19.6"/>
+  <path class="tk-st1" d="M292.3,157.7c7-5.9,10.1-11.8,9.3-17.7"/>
+  <path class="tk-st2" d="M414.1,235.3c3.2-6.4,12.7-8.4,18.2-3.9"/>
+  <path class="tk-st4" d="M324.1,44c-4.4-11.6.7-25.5,10.6-33.1,9.9-7.5,23.5-9.1,35.5-5.8,12,3.2,22.4,10.8,30.9,19.9,13.2-13.7,35-18,52.5-10.5,17.4,7.5,29.2,26.4,28.3,45.4,14-1.4,28.3-2.3,41.9,1.1,13.6,3.3,26.7,11.5,33,24.1,6.3,12.6,4,29.7-7.2,38.1,13,7.6,26.3,15.4,36.1,26.7,9.9,11.4,15.9,27.2,11.7,41.7-4.1,14.5-20.7,25.4-34.8,20.2,2.6,14.9.7,31.2-8.5,43.2-9.2,12-26.7,18-40.2,11.2-1.5,13.2-10.1,25.4-22,31.2-11.9,5.8-26.8,5.2-38.2-1.8-5,11.6-21.6,14.9-32.4,8.2-10.7-6.6-15.6-20.3-14.8-32.9.2-3.1.7-6.3,2.3-9,5.7-10,20.5-8.3,30.9-13.2,10.8-5,16.8-18.7,13-30-3.8-11.3-16.7-18.7-28.4-16.3-6,1.3-14.4,9.1-20.4,8.1-6.5-1.1-8.6-11.6-9.7-18.1-1.1-6.5.8-13.1,3.1-19.2,5.2-13.7,13.1-26.5,23-37.3-11.2,18.6-61.7,19.1-54.2-12.3.9-3.9,10.9-9.8,12.5-13.5,2.1-4.9-2.3-10.7-7.5-12-5.2-1.4-10.6.3-15.7,2.1-5.1,1.7-10.4,3.5-15.7,2.4-6.2-1.3-11.1-7.1-11.4-13.3-.4-6.3,3.8-12.6,9.8-14.6-16-4.1-27,2-40.5,9.1-11.3,5.9-23.5-2.9-24.5-16.7-.8-11.4,7.3-22.5,17.9-26.7,10.7-4.2,23.2-2.2,33,3.8Z"/>
+  <path class="tk-st2" d="M527.8,688.6c-20.1,5.2-46.6,16.8-60.2,23.1-4.5,2.1-6,7.8-3.1,11.9,21.5,30.2,46,82.2,51.4,93.9.7,1.6,1.1,3.3.9,5.1-2.2,21.9-19.1,41.7-40.5,47-4.7,1.2-9.8,1.8-13.4,5.4-2,2-3,5-2,7.7,2,5.7,10,5,14.9,1.9,4.7-2.9,9-7.4,14.5-7.5-6.1.3-12.7,2.9-14.6,9.3-1.2,4.2,1.1,8.9,5.4,9.8,8.5,1.8,12.4-13,21.2-14.4-3.3,1.6-6.7,3.3-8.8,6.3-2.5,3.5-1.4,8.7,2,11.2,6.8,5,16.7,4.7,24.6,1.2,8.7-3.8,15.5-10.6,22.6-16.8,13.7-12,28.8-22.3,45-30.6,11.3-5.8,23.5-10.9,26.8-26.5,1.2-5.6.9-11.5-1.1-16.9-6.2-17.4-23.6-19.1-36-28.3-14.4-10.6-19.9-29.2-23.7-46.7-2.7-12.4-11.2-31.5-15.8-41.4-1.8-3.9-6.2-6-10.3-4.9Z"/>
+  <path class="tk-st2" d="M365.3,711.5c-19.1-8.1-51-2.4-65.6-5.7-4.9-1.1-14.7-2.6-14.9,2.4-1.2,37-14.9,108.5-17.7,121.2-.4,1.7-1.1,3.3-2.3,4.6-15,16.1-40.5,21.6-60.7,12.7-4.5-1.9-8.9-4.6-14-3.8s-5.4,2.2-6.3,4.9c-1.8,5.8,4.9,10,10.6,10.5,5.5.5,11.6-.4,16.1,2.8-5.1-3.4-11.9-5.4-17.2-1.4-3.6,2.6-4.5,7.7-1.6,11.1,5.7,6.6,17.7-2.8,25.6,1.5-3.6-.7-7.3-1.4-10.8-.3-4.1,1.3-6.4,6.1-5.2,10.2,2.4,8.1,10.5,13.9,18.8,15.9,9.2,2.3,18.8,1,28.2.4,18.2-1.2,40.9-14.2,58.8-11,6.8,1.2,13.7,2.8,20.6,2.3,9.5-.8,18.7-4.2,18.1-14.9-.7-12.3-4.7-24.6-7.8-36.5-4.7-17.9,2.7-37.4,9.5-51.5,5.5-11.5,10.2-31.8,12.5-42.5.9-4.2,9.3-31.1,5.3-32.8Z"/>
+  <path class="tk-st0" d="M271.8,352.4s-117.5,8.4-157.7,4.1l-33.9-30s-20.6-7.9-4.4,25.9c0,0-23.4,1.4-35.1,1.6-3.3,0-7,.3-9.1,2.8-2.6,3-1.2,8,1.8,10.5,3.1,2.5,7.2,3.2,11.2,3.5,4.9.4,9.9.4,14.8,0,0,0-19.2,1.9-28,4.7-1.9.6-3.9,1.3-5.4,2.6-1.5,1.3-2.6,3.3-2.4,5.3.3,1.9,1.7,3.4,3.3,4.3s3.5,1.2,5.4,1.4c10.2,1.2,20.6.1,30.6-2.5,0,0-16.1,3.9-22.8,8-2.4,1.5-4.8,3.2-6.3,5.7s-1.8,5.7-.2,8.1c1.8,2.7,5.4,3.3,8.7,3.4,8.6.3,17.3-1.9,24.8-6.2-5.4,3.3-10.4,7.1-14.9,11.4-1.8,1.8-3.8,4-3.4,6.5.2,1.9,1.7,3.4,3.5,4.2,1.7.8,3.7,1,5.5.9,13-.7,47.8-18.9,50-20,3.3-1.7,7.3-1.5,11-1.2,7.8.7,15.6,2.1,23.3,3.8,3.3.7,6.6,1.5,9.9,2.2,9.7,2,19.6,3.1,29.5,4.1,31,2.9,62.3,3.8,93.2-.3"/>
+  <path class="tk-st7" d="M198.8,356.5c-15.7-7.8-31.8-14.7-47.9-21.7-16.5-7.1-33-14.3-49.6-21.5-9.5-4.1-19.6-6.4-29.4-9.7-7.9-2.7-13.4-8-22-6.1-1.2-.4-13.1.6-17,.8-6.4.4-13.9-1-17.8-6.1-1.1-1.5-1.8-3.3-1.4-5.1.6-3,3.8-4.7,6.8-5.8,3.8-1.3,7.8-2.2,11.8-2.7,0,0,0,0,0,0,.9-.1,1.8-.2,2.7-.3-.9.1-1.8.2-2.7.3,0,0,0,0,0,0-7.9.5-16-1.2-23-5-2-1.1-4.2-2.8-4.3-5.1-.1-3.9,5.1-5.2,9-5.2,6.4,0,12.8,0,19.2,0-7.1-.9-14-2.6-20.7-5.1-4.9-1.9-10.5-6.3-8.5-11.1,1.7-4,7.2-4.3,11.6-3.9,7,.6,14.1,1.2,21.1,1.8-7.3-4.6-14.1-10.1-20.1-16.2-1.5-1.6-.6-4.5,1.3-5.6,1.9-1.1,4.3-1,6.5-.7,14.5,1.8,28.5,7.7,39.9,16.8l-5.8-16.4c-2.3-6.5,1-15.6,7.9-15.8,6-.2,9.8,6.1,12.4,11.5,3.2,6.8,6.5,13.7,9.7,20.5,1.6,3.4,3.3,6.9,6.3,9.2,1.8,1.4,3.9,2.2,6,3.1,42.4,17.1,85.8,31.7,129.8,43.8,0,0-6.7,60.4-8.5,60.5s-23.1,1.1-23.1,1.1Z"/>
+  <path class="tk-st8" d="M63.2,246.3c-3.4,7.6-.3,17.5,6.8,21.8"/>
+  <path class="tk-st2" d="M375.3,314.8c11.4-.3,32.8,1.5,37.3,1.9s.6-.3.5-.7c-.8-2.2-1.1-4.5-.8-6.8,1-9.3,0-18.5-3.3-27.2-2.7-7.3-2.4-15.7,1.9-22.2l-21.5-3.9c16.2,5,34.5,2.3,48.7-7,10.5-6.9,19.3-20,12-31.9-3-4.9-8.2-8.1-13.8-9.3-12.1-2.6-23.3,2.4-34.1,7.2-8-11-11.6-25.1-9.8-38.5,1.7-13.5,8.8-26.2,19.3-34.7-10.8,7.8-30.6,7-40.9-1.5-6.5-5.4,6.7-19.3,8.6-28.1,1.5-6.8-4.8-12.7-11.5-11-2.8.7-17,6.7-19.5,6.9-8.2.8-17.9-1.3-21.3-8.8-3.9-8.7,3.2-18.1,10-24.7-13.5,1.8-26.5,7.4-37.1,16,0,0-28.1,23.7-35.3,43.7l-.6,1.1c-8.3-.5-16.7-.2-24.9.9-4.5.6-9.6,1.8-11.1,6.9s-.5,3.3-.1,4.9c2.2,10,14.5,13.2,18.1,22.2,0,0-4,11.2-4.2,17.5-.3,6.3,2.2,13.1,7.7,16.2,3.7,2.1,8.1,2.3,12.4,2.3l30.2.7c2.2,0,3.7,2.3,2.9,4.4-2.5,6.7-8,19.3-14.1,23.1-6.9,4.2-15.3,6-23.3,5-2-.2-3.4,2-2.3,3.7,7.5,11.5,27.6,40.1,45.8,45.8,9.1,2.8,18.9,4,27.1,8.9,7.7,4.6,13.6,14.4,10.5,22.7-.2.6.3,1.1.9,1,5.5-1.3,24.9-5.9,35.8-6.2Z"/>
+  <path class="tk-st3" d="M257.4,351.2c-21.2,2.3-36.8,1.7-35.4-4.6,2.1-9.7,3.6-60.6,10.7-59.7,67,7.7,97.6,20.1,97.6,20.1v17.5"/>
+  <path class="tk-st6" d="M313.6,441.9c5.8,8.6,16.8,22.7,33.4,34"/>
+  <path class="tk-st3" d="M347,438.4c-4.9,1.8-18.7,2.8-33.4,3.4-7.8.3-15.8.5-22.9.7-13.1.3-23.3.3-23.3.3,0-54.3-10.9-95.9-10.9-95.9,146.6-52.7,170.5-21.4,170.5-21.4,57.1,55.1,99,212.1,99,212.1-128.7,75.5-233.7,38.3-238.9,32.4-4.4-4.9,2.6-99.2,3.7-127.5"/>
+  <path class="tk-st9" d="M422.7,631.5c-11.9,25.4-22.4,74.4-25.6,89.9-.6,2.8-3,4.9-5.9,4.9-40.5.3-81.1-6.3-119.5-19.5,9.2-43.6,21.2-86.6,35.9-128.7v-.2c1.4-2.1,3.9-3.2,6.4-2.9,20.6,2.7,41.6-.8,62.2-4.3,18.8-3.2,37.7-6.4,56.5-9.6,21-3.6,60.5-14.9,76.1-19.6,3.3-1,6.8,1.1,7.4,4.5,1.8,10.7,6.1,21,10.4,31.1,13.6,32,27.2,64.1,40.8,96.1,1.8,4.2-.4,9-4.6,10.4-8,2.7-20.5,6.8-29.2,8.6-21.2,4.4-42,11.1-61.7,20.1-10.4,4.8-23.7,9.8-32.3,2.2-3.4-3-5.2-7.4-6.8-11.7l-14.3-37.3c-.5-1.4-.2-3.5.8-4.7,5.9-6.6,10.1-14.7,11.9-23.4.5-2.2,0-4.6-1.6-6.3s-1.2-1.1-1.8-1.5c-1.8-1.1-4.3-.3-5.2,1.6Z"/>
+  <path class="tk-st5" d="M678,747.9c17.7-5.9,35.4-11.8,53.2-17.7"/>
+  <path class="tk-st5" d="M678,810.3c18.7-.6,37.3-1.2,56-1.8"/>
+  <path class="tk-st5" d="M677.7,857.8c17.9,5.3,35.8,10.6,53.7,16"/>
+</svg></div>
+      <div class="flash" id="flash"></div>
+      <div class="center-card" id="startCard">
+        <h3>Catch the drop</h3>
+        <div class="rules">
+          <span>&#9654; <b>Move</b> — arrows or drag</span>
+          <span>&#9654; <b>Jump</b> — up / space / tap</span>
+          <span>&#9654; <b>+1</b> per box · jump over traps</span>
+          <span>&#9654; <b>Goal:</b> 10 points every 10 seconds</span>
+        </div>
+        <button class="play" id="startBtn">Start</button>
+      </div>
+      <div class="center-card hidden" id="overCard">
+        <h3 id="overTitle">Out</h3><div class="big-num" id="overScore">0</div>
+        <p id="overMsg"></p><button class="play" id="againBtn">Play again</button>
+      </div>
+    </div>
+    </div>
   </section>
 
   <!-- Broken Heart -->
@@ -240,6 +523,11 @@ footer .cta a:hover{background-size:100% 3px;border-color:transparent}
       <figure><span class="tag">View</span><img src="img/damiano-poster.jpg" alt="Textured grey-pink artwork with Damiano David in dot-matrix type and warped script lettering"><figcaption>CD artwork · dot-matrix + warped script</figcaption></figure>
       <figure class="span2"><span class="tag">View</span><img src="img/spotify.jpg" alt="Square streaming cover: Damiano David and Born With a Broken Heart in pink warped lettering circling over a grey engraved cloud texture"><figcaption>Streaming cover · square format</figcaption></figure>
       <figure class="span4"><span class="tag">View</span><img src="img/cd.jpg" alt="Flat layout of the CD sleeve front and back, pink and grey engraved texture with the song title curving around"><figcaption>CD sleeve · front and back flat</figcaption></figure>
+    </div>
+  
+    <div class="interactive">
+      <div class="demo-head"><h2 style="font-size:18px">Mend the heart</h2><span class="how">Click to shatter · click a letter, then drag it into the heart · 15s or it breaks</span></div>
+      <div id="shatterStage"></div>
     </div>
   </section>
 
@@ -295,5 +583,226 @@ footer .cta a:hover{background-size:100% 3px;border-color:transparent}
   document.querySelectorAll('a').forEach(function(a){a.addEventListener('mouseenter',function(){c.classList.add('link')});a.addEventListener('mouseleave',function(){c.classList.remove('link')});});
 })();
 </script>
-</body>
-</html>
+<script>
+
+/* ==================== SHATTER ==================== */
+(function(){
+  var stage=document.getElementById('shatterStage');
+  var LINES=["BORN","WITH A","BROKEN","HEART"];
+  var LIMIT=15000;
+  var frags=[], ghosts=[], state='whole', raf=null, hint, heart, ui, msg, prog, bar, brokenAt=0;
+  var pointer={x:0,y:0}, dragging=null, dragOff={x:0,y:0};
+
+  function stars(){
+    for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';
+      s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+      s.style.opacity=(.2+Math.random()*.6);s.style.transform='scale('+(.6+Math.random()*1.6)+')';stage.appendChild(s);}
+  }
+  function heartSVG(w,h){
+    return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 32 29.6" preserveAspectRatio="none">'
+      +'<path class="hpath" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
+  }
+
+  function build(){
+    stage.innerHTML=''; frags=[]; ghosts=[]; state='whole';
+    stars();
+    var W=stage.clientWidth,H=stage.clientHeight;
+    var heartH=Math.min(H*0.92,W*0.7), heartW=heartH*1.08, cx=W/2, cy=H*0.46;
+    heart=document.createElement('div'); heart.className='heart';
+    heart.style.left=(cx-heartW/2)+'px'; heart.style.top=(cy-heartH/2)+'px';
+    heart.innerHTML=heartSVG(heartW,heartH); stage.appendChild(heart);
+
+    // font size: longest line fits ~58% of heart width
+    function lineW(str,size){var m=document.createElement('div');
+      m.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font-family:var(--display);font-weight:800;font-size:'+size+'px';
+      m.textContent=str; stage.appendChild(m); var w=m.getBoundingClientRect().width; m.remove(); return w;}
+    var longest=LINES.reduce(function(a,b){return lineW(b,40)>lineW(a,40)?b:a;});
+    var fs=Math.max(20,Math.min(70, 40*(heartW*0.56)/lineW(longest,40)));
+    var lineH=fs*1.14, blockH=LINES.length*lineH;
+    var startY=cy - blockH/2 + fs*0.15;   // heart visual centre sits a touch high
+    var sr=stage.getBoundingClientRect();
+
+    LINES.forEach(function(str,li){
+      var lineTop=startY+li*lineH;
+      var m=document.createElement('div');
+      m.style.cssText='position:absolute;left:'+cx+'px;top:'+lineTop+'px;transform:translateX(-50%);white-space:nowrap;font-family:var(--display);font-weight:800;font-size:'+fs+'px;visibility:hidden';
+      var chars=str.split('');
+      chars.forEach(function(c){var s=document.createElement('span');s.style.display='inline-block';if(c===' '){s.style.width=(fs*0.34)+'px';}else{s.textContent=c;}m.appendChild(s);});
+      stage.appendChild(m);
+      [].forEach.call(m.children,function(sp,i){
+        if(chars[i]===' ')return;
+        var r=sp.getBoundingClientRect(), hx=r.left-sr.left, hy=r.top-sr.top;
+        var g=document.createElement('div'); g.className='ghost'; g.textContent=chars[i];
+        g.style.fontSize=fs+'px'; g.style.left=hx+'px'; g.style.top=hy+'px'; stage.appendChild(g); ghosts.push(g);
+        var el=document.createElement('div'); el.className='frag placed'; el.textContent=chars[i];
+        el.style.fontSize=fs+'px'; el.style.left=hx+'px'; el.style.top=hy+'px'; stage.appendChild(el);
+        var fo={el:el,hx:hx,hy:hy,x:hx,y:hy,vx:0,vy:0,rot:0,vr:0,placed:true,held:false};
+        el.addEventListener('pointerdown',function(e){grab(e,fo);});
+        frags.push(fo);
+      });
+      m.remove();
+    });
+
+    bar=document.createElement('div'); bar.className='timebar'; stage.appendChild(bar);
+    hint=document.createElement('div'); hint.className='hintbig'; hint.textContent='click to break'; stage.appendChild(hint);
+    ui=document.createElement('div'); ui.className='shatter-ui';
+    ui.innerHTML='<div class="msg" id="sMsg">One click and it falls apart.</div><div class="right"><span class="progress" id="sProg"></span><button class="sbtn" id="sReset">reset</button></div>';
+    stage.appendChild(ui);
+    msg=ui.querySelector('#sMsg'); prog=ui.querySelector('#sProg');
+    ui.querySelector('#sReset').addEventListener('pointerdown',function(e){e.stopPropagation();doReset();});
+  }
+
+  function scatter(){
+    frags.forEach(function(f){
+      f.placed=false; f.held=false; f.el.className='frag loose';
+      var ang=Math.random()*Math.PI*2, sp=3.4+Math.random()*3.6;
+      f.vx=Math.cos(ang)*sp; f.vy=Math.sin(ang)*sp; f.vr=(Math.random()*2-1)*3;
+    });
+  }
+  function shatter(){
+    if(state!=='whole')return;
+    state='broken'; brokenAt=performance.now();
+    if(hint)hint.style.opacity='0';
+    heart.classList.remove('mended'); heart.classList.add('show');
+    ghosts.forEach(function(g){g.classList.add('show')});
+    msg.textContent='Drag every letter into the heart — quick.';
+    scatter(); if(!raf)loop(); updProg();
+  }
+
+  function loop(){
+    if(state!=='broken'){raf=null;return;}
+    var now=performance.now(), W=stage.clientWidth,H=stage.clientHeight;
+    // timer
+    var remain=Math.max(0,LIMIT-(now-brokenAt));
+    bar.style.width=(remain/LIMIT*100)+'%';
+    var placed=frags.filter(function(f){return f.placed}).length,total=frags.length;
+    if(remain<4000){heart.classList.add('panic');bar.style.background='#fff';}else{heart.classList.remove('panic');bar.style.background='var(--space-pink)';}
+    prog.innerHTML=placed+' / '+total+' back · <span class="t">'+(remain/1000).toFixed(1)+'s</span>';
+    if(remain<=0 && placed<total){ breakHeart(); }
+
+    frags.forEach(function(f){
+      if(f.placed)return;
+      if(f.held){
+        f.rot+=(0-f.rot)*0.25; if(Math.abs(f.rot)<0.4)f.rot=0;
+        if(dragging===f){f.x=pointer.x-dragOff.x; f.y=pointer.y-dragOff.y;}
+        f.el.style.transform='translate('+(f.x-f.hx)+'px,'+(f.y-f.hy)+'px) rotate('+f.rot+'deg)'; return;
+      }
+      f.x+=f.vx; f.y+=f.vy; f.rot+=f.vr; f.vx*=0.992; f.vy*=0.992; f.vr*=0.99;
+      var m=44;
+      if(f.x<-m){f.x=-m;f.vx=Math.abs(f.vx)*0.72} if(f.x>W-m){f.x=W-m;f.vx=-Math.abs(f.vx)*0.72}
+      if(f.y<-m){f.y=-m;f.vy=Math.abs(f.vy)*0.72} if(f.y>H-m){f.y=H-m;f.vy=-Math.abs(f.vy)*0.72}
+      f.el.style.transform='translate('+(f.x-f.hx)+'px,'+(f.y-f.hy)+'px) rotate('+f.rot+'deg)';
+    });
+    raf=requestAnimationFrame(loop);
+  }
+
+  function breakHeart(){
+    heart.classList.remove('panic'); heart.classList.add('breaking');
+    msg.textContent='Too slow — it broke. Starting over.';
+    setTimeout(function(){
+      heart.classList.remove('breaking');
+      scatter(); brokenAt=performance.now();   // restart the round
+      msg.textContent='Again — drag the letters in before it breaks.';
+    },520);
+  }
+
+  function grab(e,f){
+    if(state!=='broken'||f.placed)return; e.stopPropagation(); e.preventDefault();
+    f.held=true; f.el.className='frag held'; f.vx=f.vy=f.vr=0;
+    dragging=f; var sr=stage.getBoundingClientRect();
+    pointer.x=e.clientX-sr.left; pointer.y=e.clientY-sr.top;
+    dragOff.x=pointer.x-f.x; dragOff.y=pointer.y-f.y;
+    if(f.el.setPointerCapture)f.el.setPointerCapture(e.pointerId);
+    if(!raf)loop();
+  }
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return; var sr=stage.getBoundingClientRect();
+    pointer.x=e.clientX-sr.left; pointer.y=e.clientY-sr.top;
+  });
+  window.addEventListener('pointerup',function(){
+    if(!dragging)return; var f=dragging; dragging=null;
+    if(Math.abs(f.x-f.hx)<48 && Math.abs(f.y-f.hy)<48)snap(f);
+  });
+  function snap(f){
+    f.held=false; f.placed=true; f.el.className='frag placed';
+    var sx=f.x,sy=f.y,t0=performance.now(),dur=240;
+    (function a(t){var k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);
+      f.x=sx+(f.hx-sx)*e; f.y=sy+(f.hy-sy)*e; f.rot=0;
+      f.el.style.transform='translate('+(f.x-f.hx)+'px,'+(f.y-f.hy)+'px)';
+      if(k<1)requestAnimationFrame(a); else{f.el.style.transform='none';updProg();}
+    })(performance.now());
+  }
+  function updProg(){
+    var placed=frags.filter(function(f){return f.placed}).length,total=frags.length;
+    if(state!=='broken')return;
+    if(placed===total){
+      state='whole'; heart.classList.remove('panic'); heart.classList.add('mended');
+      bar.style.width='0'; msg.textContent='Mended — before it broke.';
+    }
+  }
+  function doReset(){ state='whole'; if(raf){cancelAnimationFrame(raf);raf=null;} build(); }
+  stage.addEventListener('pointerdown',function(e){ if(e.target.classList.contains('frag'))return; if(state==='whole')shatter(); });
+  build(); window.addEventListener('resize',function(){ if(state==='whole')doReset(); });
+})();
+
+/* ==================== CATCH GAME ==================== */
+(function(){
+  var stage=document.getElementById('gameStage');
+  var tm=document.getElementById('tm'), tk=document.getElementById('tk'), flash=document.getElementById('flash');
+  var hudScore=document.getElementById('hudScore'), hudTarget=document.getElementById('hudTarget');
+  var startCard=document.getElementById('startCard'), overCard=document.getElementById('overCard');
+  var W,H, tkx, tkVel=0, tmx, score=0, drops=[], traps=[], running=false;
+  var frozenUntil=0, lastDrop=0, dropGap=340, speed=3.75, raf=null;
+  var startTime=0, checkpoint=1, keys={}, tmTarget=null, GOAL=10, TKW=46, TKH=57;
+  var tky=0, tkyVel=0, GRAV=0.9, JUMP=15, TM_EASE=0.075;
+
+  function box(){return '<svg viewBox="0 0 60 44"><rect x="4" y="14" width="52" height="26" rx="2" fill="#B07B4E" stroke="#231815" stroke-width="2.5"/><path d="M4 14 L14 6 L56 6 L56 14" fill="#C79466" stroke="#231815" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 6 L14 40" stroke="#231815" stroke-width="1.5" opacity=".5"/><text x="30" y="32" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7EC8F2" text-anchor="middle" letter-spacing="1">TOMS</text></svg>';}
+  function trapSvg(){return '<svg viewBox="0 0 44 26"><path d="M4 24 L22 4 L40 24 Z" fill="rgba(238,95,163,.12)" stroke="#EE5FA3" stroke-width="3" stroke-linejoin="round"/><line x1="14" y1="24" x2="14" y2="15" stroke="#EE5FA3" stroke-width="2"/><line x1="22" y1="24" x2="22" y2="11" stroke="#EE5FA3" stroke-width="2"/><line x1="30" y1="24" x2="30" y2="15" stroke="#EE5FA3" stroke-width="2"/></svg>';}
+  function measure(){W=stage.clientWidth;H=stage.clientHeight;TKH=tk.offsetHeight||57;}
+  function reset(){
+    measure(); drops.forEach(function(d){d.el.remove()}); drops=[]; traps.forEach(function(t){t.el.remove()}); traps=[];
+    score=0; speed=3.75; dropGap=340; checkpoint=1; frozenUntil=0; tmTarget=null; tky=0; tkyVel=0;
+    tkx=W/2-TKW/2; tk.style.left=tkx+'px'; tk.style.bottom='40px'; tk.classList.remove('frozen');
+    tmx=W/2-52; tm.style.left=tmx+'px'; hudScore.textContent='SCORE 0';
+  }
+  function spawnDrop(){var el=document.createElement('div');el.className='drop';el.innerHTML=box();var x=16+Math.random()*(W-76);el.style.left=x+'px';el.style.top='56px';stage.appendChild(el);drops.push({el:el,x:x,y:56,w:44});tmTarget=x;}
+  function spawnTrap(){if(traps.length>=2)return;var el=document.createElement('div');el.className='trap';el.innerHTML=trapSvg();var x=16+Math.random()*(W-72);el.style.left=x+'px';stage.appendChild(el);traps.push({el:el,x:x,w:40,until:performance.now()+4200});}
+  function jump(){if(running&&tky<=0.5&&performance.now()>=frozenUntil){tkyVel=JUMP;}}
+  function step(now){
+    if(!running)return;
+    var frozen=now<frozenUntil; tk.classList.toggle('frozen',frozen);
+    if(tmTarget==null)tmTarget=tmx; tmx+=(tmTarget-tmx)*TM_EASE; tm.style.left=tmx+'px';
+    if(!frozen){var acc=0;if(keys.left)acc-=1;if(keys.right)acc+=1;tkVel+=acc*1.0;tkVel*=0.82;tkx+=tkVel;
+      if(tkx<4){tkx=4;tkVel=0}if(tkx>W-TKW-4){tkx=W-TKW-4;tkVel=0}tk.style.left=tkx+'px';
+      var sv=tk.querySelector('svg');if(sv)sv.style.transform='scaleX('+(tkVel<-0.3?-1:1)+')';}
+    if(tky>0||tkyVel>0){tky+=tkyVel;tkyVel-=GRAV;if(tky<=0){tky=0;tkyVel=0}tk.style.bottom=(40+tky)+'px';}
+    if(now-lastDrop>dropGap){lastDrop=now;spawnDrop();if(Math.random()<0.35)spawnTrap();}
+    var kidC=tkx+TKW/2,R=42,kidTop=H-64-TKH-tky,kidBot=kidTop+TKH;
+    for(var i=drops.length-1;i>=0;i--){var d=drops[i];d.y+=speed;d.el.style.top=d.y+'px';var boxBot=d.y+32;
+      if(boxBot>=kidTop&&d.y<=kidBot&&Math.abs((d.x+d.w/2)-kidC)<R){score++;hudScore.textContent='SCORE '+score;pop(d.x,d.y);d.el.remove();drops.splice(i,1);continue;}
+      if(d.y>H){d.el.remove();drops.splice(i,1);}}
+    if(!frozen&&tky<8){for(var j=0;j<traps.length;j++){if(Math.abs((traps[j].x+traps[j].w/2)-kidC)<R){frozenUntil=now+1000;doFlash();break;}}}
+    for(var k=traps.length-1;k>=0;k--){if(now>traps[k].until){traps[k].el.remove();traps.splice(k,1);}}
+    var elapsed=(now-startTime)/1000,nextAt=checkpoint*10,need=checkpoint*GOAL,remain=Math.max(0,nextAt-elapsed);
+    hudTarget.innerHTML='GOAL '+need+' &middot; '+remain.toFixed(1)+'s left';
+    hudTarget.classList.toggle('warn',remain<=3&&score<need);
+    if(elapsed>=nextAt){if(score<need){gameOver();return;} checkpoint++; speed+=0.2; dropGap=Math.min(1600,dropGap/0.75);}  /* fewer drops each stage, faster */
+    raf=requestAnimationFrame(step);
+  }
+  function pop(x,y){var p=document.createElement('div');p.style.cssText='position:absolute;left:'+x+'px;top:'+y+'px;width:44px;height:44px;border:2px solid var(--sky);border-radius:50%;z-index:4;pointer-events:none;transition:.4s;opacity:.9';stage.appendChild(p);requestAnimationFrame(function(){p.style.transform='scale(1.9)';p.style.opacity='0';});setTimeout(function(){p.remove()},420);}
+  function doFlash(){flash.style.transition='none';flash.style.opacity='.3';requestAnimationFrame(function(){flash.style.transition='opacity .5s';flash.style.opacity='0';});}
+  function start(){reset();running=true;startTime=performance.now();lastDrop=startTime-400;startCard.classList.add('hidden');overCard.classList.add('hidden');hudTarget.classList.remove('warn');raf=requestAnimationFrame(step);}
+  function gameOver(){running=false;if(raf)cancelAnimationFrame(raf);document.getElementById('overScore').textContent=score;document.getElementById('overMsg').textContent='You cleared '+(checkpoint-1)+' checkpoint'+((checkpoint-1)===1?'':'s')+'. Needed '+(checkpoint*GOAL)+' points by '+(checkpoint*10)+'s.';overCard.classList.remove('hidden');}
+  document.getElementById('startBtn').addEventListener('click',start);
+  document.getElementById('againBtn').addEventListener('click',start);
+  window.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){keys.left=1;e.preventDefault();}if(e.key==='ArrowRight'){keys.right=1;e.preventDefault();}if(e.key==='ArrowUp'||e.key===' '||e.key==='Spacebar'){jump();e.preventDefault();}});
+  window.addEventListener('keyup',function(e){if(e.key==='ArrowLeft')keys.left=0;if(e.key==='ArrowRight')keys.right=0;});
+  var dragCtl=false,moved=false,downX=0;
+  stage.addEventListener('pointerdown',function(e){if(!running)return;dragCtl=true;moved=false;downX=e.clientX;});
+  window.addEventListener('pointermove',function(e){if(!dragCtl||!running)return;if(Math.abs(e.clientX-downX)>5)moved=true;if(moved){var r=stage.getBoundingClientRect();tkx=e.clientX-r.left-TKW/2;tkVel=0;if(tkx<4)tkx=4;if(tkx>W-TKW-4)tkx=W-TKW-4;}});
+  window.addEventListener('pointerup',function(){if(dragCtl&&!moved&&running)jump();dragCtl=false;});
+  measure(); window.addEventListener('resize',measure);
+})();
+
+</script>
+</body></html>
