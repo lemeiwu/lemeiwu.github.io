@@ -229,12 +229,15 @@ footer .cta a:hover{background-size:100% 3px;border-color:transparent}
 .play:hover{background:var(--pink)}
 .hidden{display:none!important}
 .flash{position:absolute;inset:0;background:var(--pink);opacity:0;pointer-events:none;z-index:4}
+.focus{transform:scale(1.02);transition:transform .35s ease;box-shadow:0 0 0 1px rgba(255,79,160,.35)}
+body.game-lock{overflow:hidden;overscroll-behavior:none}
 .pad{display:none;gap:12px;padding:12px 14px;background:#ECE6CF;border-top:1px solid #D9D2B8;align-items:center;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
 @media (pointer:coarse){#gameWrap.running .pad{display:flex}}
 .joy{flex:1;position:relative;height:60px;display:flex;align-items:center;touch-action:none}
 .joy-track{position:relative;width:100%;height:16px;border-radius:8px;background:rgba(20,20,20,.14)}
-.joy-knob{position:absolute;top:50%;left:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:#141414;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.joy-label{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:#8A857A;pointer-events:none}
+.joy-knob{position:absolute;top:50%;left:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:#141414;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:transform .15s cubic-bezier(.2,.8,.2,1)}
+.joy.on .joy-knob{transition:none}
+.joy-label{white-space:nowrap;position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:#8A857A;pointer-events:none}
 .jump-btn{width:104px;height:60px;border-radius:14px;border:0;background:#EE5FA3;color:#fff;font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.2);touch-action:none}
 .jump-btn:active{transform:scale(.96)}
 footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);line-height:1.6}
@@ -520,7 +523,7 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
       </div>
     </div>
     <div class="pad" id="pad">
-      <div class="joy" id="joy"><div class="joy-track"><div class="joy-knob" id="joyKnob"></div></div><span class="joy-label">slide to move</span></div>
+      <div class="joy" id="joy"><div class="joy-track"><div class="joy-knob" id="joyKnob"></div></div><span class="joy-label">push left / right</span></div>
       <button class="jump-btn" id="jumpBtn" type="button">Jump</button>
     </div>
     </div>
@@ -604,6 +607,18 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
 </script>
 <script>
 
+/* ==== page scroll lock while a game is active (iOS-safe) ==== */
+var __locks={};
+function __anyLock(){for(var k in __locks)if(__locks[k])return true;return false;}
+function __prevent(e){var t=e.target;for(var k in __locks){if(__locks[k]&&__locks[k].contains(t)){e.preventDefault();return;}}}
+document.addEventListener('touchmove',__prevent,{passive:false});
+function lockScroll(key,el,on){
+  __locks[key]=on?el:null;
+  document.body.classList.toggle('game-lock',__anyLock());
+  var box=el.closest('.interactive')||el.closest('.demo')||el;
+  box.classList.toggle('focus',!!on);
+  if(on){ try{ box.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
+}
 /* ==================== SHATTER ==================== */
 (function(){
   var stage=document.getElementById('shatterStage');
@@ -682,7 +697,7 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
   }
   function shatter(){
     if(state!=='whole')return;
-    state='broken'; brokenAt=performance.now(); stage.classList.add('active');
+    state='broken'; brokenAt=performance.now(); stage.classList.add('active'); lockScroll('heart',stage,true);
     if(hint)hint.style.opacity='0';
     heart.classList.remove('mended'); heart.classList.add('show');
     ghosts.forEach(function(g){g.classList.add('show')});
@@ -731,16 +746,16 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
     if(state==='whole')return;            /* let the tap bubble to the stage → shatter */
     if(state!=='broken'||f.placed)return; e.stopPropagation(); e.preventDefault();
     f.held=true; f.el.className='frag held'; f.vx=f.vy=f.vr=0;
-    dragging=f; var sr=stage.getBoundingClientRect();
-    pointer.x=e.clientX-sr.left; pointer.y=e.clientY-sr.top;
+    dragging=f; var sr=stage.getBoundingClientRect(), sc=sr.width/stage.offsetWidth||1;
+    pointer.x=(e.clientX-sr.left)/sc; pointer.y=(e.clientY-sr.top)/sc;
     dragOff.x=pointer.x-f.x; dragOff.y=pointer.y-f.y+(e.pointerType==='touch'?LIFT:0);
     if(f.ghost)f.ghost.classList.add('target');
     if(f.el.setPointerCapture)f.el.setPointerCapture(e.pointerId);
     if(!raf)loop();
   }
   window.addEventListener('pointermove',function(e){
-    if(!dragging)return; var sr=stage.getBoundingClientRect();
-    pointer.x=e.clientX-sr.left; pointer.y=e.clientY-sr.top;
+    if(!dragging)return; var sr=stage.getBoundingClientRect(), sc=sr.width/stage.offsetWidth||1;
+    pointer.x=(e.clientX-sr.left)/sc; pointer.y=(e.clientY-sr.top)/sc;
   });
   window.addEventListener('pointerup',function(){
     if(!dragging)return; var f=dragging; dragging=null;
@@ -760,11 +775,11 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
     var placed=frags.filter(function(f){return f.placed}).length,total=frags.length;
     if(state!=='broken')return;
     if(placed===total){
-      state='whole'; stage.classList.remove('active'); heart.classList.remove('panic'); heart.classList.add('mended');
+      state='whole'; stage.classList.remove('active'); lockScroll('heart',stage,false); heart.classList.remove('panic'); heart.classList.add('mended');
       bar.style.width='0'; msg.textContent='Mended — before it broke.';
     }
   }
-  function doReset(){ state='whole'; if(raf){cancelAnimationFrame(raf);raf=null;} build(); }
+  function doReset(){ state='whole'; lockScroll('heart',stage,false); if(raf){cancelAnimationFrame(raf);raf=null;} build(); }
   stage.addEventListener('pointerdown',function(e){ if(state==='whole')shatter(); });
   build(); window.addEventListener('resize',function(){ if(state==='whole')doReset(); });
 })();
@@ -799,7 +814,8 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
     if(!running)return;
     var frozen=now<frozenUntil; tk.classList.toggle('frozen',frozen);
     if(tmTarget==null)tmTarget=tmx; tmx+=(tmTarget-tmx)*TM_EASE; tm.style.left=tmx+'px';
-    if(!frozen){var acc=0;if(keys.left)acc-=1;if(keys.right)acc+=1;if(joyAxis)acc=joyAxis*1.5;tkVel+=acc*1.0;tkVel*=0.82;tkx+=tkVel;
+    if(!frozen){var tgt=null;if(joyAxis)tgt=joyAxis*7.5;else if(keys.left||keys.right)tgt=((keys.right?1:0)-(keys.left?1:0))*6.5;
+      if(tgt!==null)tkVel+=(tgt-tkVel)*0.22;else tkVel*=0.88;if(Math.abs(tkVel)<0.05)tkVel=0;tkx+=tkVel;
       if(tkx<4){tkx=4;tkVel=0}if(tkx>W-TKW-4){tkx=W-TKW-4;tkVel=0}tk.style.left=tkx+'px';
       var sv=tk.querySelector('svg');if(sv)sv.style.transform='scaleX('+(tkVel<-0.3?-1:1)+')';}
     if(tky>0||tkyVel>0){tky+=tkyVel;tkyVel-=GRAV;if(tky<=0){tky=0;tkyVel=0}tk.style.bottom=(40+tky)+'px';}
@@ -818,17 +834,17 @@ footer{margin-top:44px;font-family:var(--mono);font-size:12px;color:var(--mute);
   }
   function pop(x,y){var p=document.createElement('div');p.style.cssText='position:absolute;left:'+x+'px;top:'+y+'px;width:44px;height:44px;border:2px solid var(--sky);border-radius:50%;z-index:4;pointer-events:none;transition:.4s;opacity:.9';stage.appendChild(p);requestAnimationFrame(function(){p.style.transform='scale(1.9)';p.style.opacity='0';});setTimeout(function(){p.remove()},420);}
   function doFlash(){flash.style.transition='none';flash.style.opacity='.3';requestAnimationFrame(function(){flash.style.transition='opacity .5s';flash.style.opacity='0';});}
-  function start(){reset();running=true;wrap.classList.add('running');startTime=performance.now();lastDrop=startTime-400;startCard.classList.add('hidden');overCard.classList.add('hidden');hudTarget.classList.remove('warn');raf=requestAnimationFrame(step);}
-  function gameOver(){running=false;wrap.classList.remove('running');joyAxis=0;if(raf)cancelAnimationFrame(raf);document.getElementById('overScore').textContent=score;document.getElementById('overMsg').textContent='You cleared '+(checkpoint-1)+' checkpoint'+((checkpoint-1)===1?'':'s')+'. Needed '+(checkpoint*GOAL)+' points by '+(checkpoint*10)+'s.';overCard.classList.remove('hidden');}
+  function start(){reset();running=true;wrap.classList.add('running');lockScroll('game',wrap,true);startTime=performance.now();lastDrop=startTime-400;startCard.classList.add('hidden');overCard.classList.add('hidden');hudTarget.classList.remove('warn');raf=requestAnimationFrame(step);}
+  function gameOver(){running=false;wrap.classList.remove('running');joyAxis=0;lockScroll('game',wrap,false);if(raf)cancelAnimationFrame(raf);document.getElementById('overScore').textContent=score;document.getElementById('overMsg').textContent='You cleared '+(checkpoint-1)+' checkpoint'+((checkpoint-1)===1?'':'s')+'. Needed '+(checkpoint*GOAL)+' points by '+(checkpoint*10)+'s.';overCard.classList.remove('hidden');}
   startCard.addEventListener('click',start);
   overCard.addEventListener('click',start);
-  // touch pad
-  var joyOn=false;
-  function joyMove(e){var r=joy.getBoundingClientRect();var v=((e.clientX-r.left)/r.width)*2-1;v=Math.max(-1,Math.min(1,v));joyAxis=Math.abs(v)<0.08?0:v;knob.style.left=(50+v*44)+'%';}
-  joy.addEventListener('pointerdown',function(e){joyOn=true;joy.setPointerCapture&&joy.setPointerCapture(e.pointerId);joyMove(e);e.preventDefault();});
-  joy.addEventListener('pointermove',function(e){if(joyOn)joyMove(e);});
-  function joyEnd(){joyOn=false;joyAxis=0;knob.style.left='50%';}
-  joy.addEventListener('pointerup',joyEnd);joy.addEventListener('pointercancel',joyEnd);
+  // touch pad — relative joystick: push from where you touched
+  var joyOn=false, joyX0=0, JOY_RANGE=64;
+  function joySet(e){var d=(e.clientX-joyX0)/JOY_RANGE;d=Math.max(-1,Math.min(1,d));joyAxis=Math.abs(d)<0.06?0:d;knob.style.transform='translateX('+(d*JOY_RANGE)+'px)';}
+  joy.addEventListener('pointerdown',function(e){joyOn=true;joyX0=e.clientX;joy.classList.add('on');joy.setPointerCapture&&joy.setPointerCapture(e.pointerId);e.preventDefault();});
+  joy.addEventListener('pointermove',function(e){if(joyOn)joySet(e);});
+  function joyEnd(){joyOn=false;joyAxis=0;joy.classList.remove('on');knob.style.transform='none';}
+  joy.addEventListener('pointerup',joyEnd);joy.addEventListener('pointercancel',joyEnd);joy.addEventListener('lostpointercapture',joyEnd);
   jumpBtn.addEventListener('pointerdown',function(e){e.preventDefault();jump();});
   window.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){keys.left=1;e.preventDefault();}if(e.key==='ArrowRight'){keys.right=1;e.preventDefault();}if(e.key==='ArrowUp'||e.key===' '||e.key==='Spacebar'){jump();e.preventDefault();}});
   window.addEventListener('keyup',function(e){if(e.key==='ArrowLeft')keys.left=0;if(e.key==='ArrowRight')keys.right=0;});
